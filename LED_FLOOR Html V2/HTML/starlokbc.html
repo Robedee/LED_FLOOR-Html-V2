@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>PFM Controller Settings</title>
+	</head>
+	
+	<header>
+			
+			<h1 align="left"> <img src="pfm.png" width="75" height="40" style=="vertical-align:middle" /> WiFi Dance Floor Configuration V1.2</h1>
+			
+	</header>
+	
+<body>
+
+<script src="/jQuery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+
+	$("#Tiles").submit(function(event){
+		event.preventDefault(); 
+      
+		var til = encodeURIComponent(document.getElementById("selecta").value);
+			 
+		$.get("output.cgi?text="+til+"&submit=Submit");
+         
+        });
+
+	$("#Pattern").submit(function(event){
+		event.preventDefault(); 
+      
+		var pat = encodeURIComponent(document.getElementById("selected").value);
+			 
+		$.get("output.cgi?text="+pat+"&submit=Submit");
+         
+        });
+
+	$("#sound2light").submit(function(event){
+		event.preventDefault(); 
+      
+		var s2lsuffix ="+PAT:"
+		var s2lval ="98"; 
+		
+		if(document.getElementById('s2lon').checked) {
+			s2lval = "99";
+	    } 
+		
+		s2lsuffix = s2lsuffix.concat(s2lval);
+		
+		var stls = encodeURIComponent(s2lsuffix);
+			 
+		$.get("output.cgi?text="+stls+"&submit=Submit");
+         
+        });
+		
+	$("#Bright").submit(function(event){
+		event.preventDefault(); 
+		
+		var speedsuffix = "+BRT:";
+		speedsuffix += document.getElementById("brightrange").value;
+      
+		var bright = encodeURIComponent(speedsuffix);
+		
+		$.get("output.cgi?text="+bright+"&submit=Submit");
+		         
+        });	
+		
+	$("#Speed").submit(function(event){
+		event.preventDefault(); 
+		
+		var speedsuffix = "+SPD:";
+		speedsuffix += document.getElementById("range").value;
+      
+		var myspeed = encodeURIComponent(speedsuffix);
+		
+		$.get("output.cgi?text="+myspeed+"&submit=Submit");
+		         
+        });	
+		
+	$("#Colour").submit(function(event){
+		event.preventDefault(); 
+		var comma = ",";
+		var coloursuffix = "+RGB:";
+		var rawcolour = document.getElementById("html5colorpicker").value;
+		rawcolour = rawcolour.substring(1);	// Strip #
+		
+		var red = rawcolour.substr(0,2);	// 00ff00
+		var redI = parseInt(red,16);
+		red = redI.toString();
+		red = red.concat(comma);			// stick comma on end
+		
+		var green = rawcolour.substr(2,2);
+		var greenI = parseInt(green,16);
+		green = greenI.toString();
+		green = green.concat(comma);
+		
+		var blue = rawcolour.substr(4,2);
+		var blueI = parseInt(blue,16);
+		blue = blueI.toString();
+		blue = blue.concat(comma);
+		
+		if(document.getElementById('fore').checked) {
+			blue = blue.concat("1");
+		} else {blue = blue.concat("0");}
+		
+		rawcolour = red+green+blue;
+		
+		coloursuffix += rawcolour;
+		var mycolour = encodeURIComponent(coloursuffix);
+		
+		$.get("output.cgi?text="+mycolour+"&submit=Submit");
+		         
+        });	
+		
+		
+		function show_value(x){
+		document.getElementById("slider_value").innerHTML=x;
+		}
+	
+});
+
+	
+</script>
+
+<fieldset>
+	<legend><h4 align="left">Choose Floor Layout</h4></legend>
+	<div>
+ 		<form name="Tiles" id="Tiles" action="">
+			<select name="selecta" id="selecta">
+				<option value="+TIL:0">12ft x 12ft Panels 15 Full 6 Half</option>
+				<option value="+TIL:1">14ft x 14ft Panels 21 Full 7 Half </option>
+				<option value="+TIL:2">16ft x 16ft Panels 28 Full 8 Half</option>
+				<option value="+TIL:3">18ft x 18ft Panels 36 Full 9 Half</option>
+				<option value="+TIL:4">20ft x 20ft Panels 45 Full 10 Half</option>
+				<option value="+TIL:5">22ft x 22ft Panels 55 Full 11 Half</option>
+				<option value="+TIL:6">24ft x 24ft Panels 66 Full 12 Half</option>
+	        </select>
+			<br><br>
+			<input type='submit' name="submit" value='Submit'/>
+		</form>
+	</div>
+</fieldset>
+<br><br>
+<!-- LED Count 432,588,768,972,1200,1452,1728-->
+<fieldset>
+	<legend><h4 align="left">Choose Pattern</h4></legend>
+	<div>
+ 		<form name="Pattern" id="Pattern" action="">
+			<select name="selected" id="selected">
+				<option value="+PAT:0">Blank Floor</option>
+				<option value="+PAT:1">Cycle Colours</option>
+				<option value="+PAT:2">Twinkling White Stars</option>
+				<option value="+PAT:3">Twinkling Coloured Stars</option>
+				<option value="+PAT:4">Chaser</option>
+				<option value="+PAT:5">Sparkle</option>
+				<option value="+PAT:6">Multi Colour Sparkle</option>
+				<option value="+PAT:7">Fading Colours</option>
+				<option value="+PAT:8">Strobe Effect</option>
+				<option value="+PAT:9">Coloured Floor</option>
+	        </select>
+			<br><br>
+			<input type='submit' name="submit" value='Submit'/>
+		</form>
+	</div>	
+</fieldset>
+<br><br>
+<fieldset>
+	<legend><h4 align="left">Choose Colour</h4></legend>
+	<div>
+		<form name="Colour" id="Colour" action="">
+			<input type="color" id="html5colorpicker" style="width:25%;" onchange="clickColor(0, -1, -1, 5)" value="#ff0000">
+			<br><br>
+			<input type="radio" name="plane" value="fore" id="fore"> Foreground<br>
+			<br><br>
+			<input type="radio" name="plane" value="back" id="back" checked> Background<br>
+			<br><br>
+			<input type="submit" name="submit" value="Submit"/>			
+		</form>
+	<div/>		
+</fieldset>
+<br><br>
+<fieldset>
+	<legend><h4 align="left">Adjust Brightness (25 To 100 %)</h4></legend>
+	<div>
+		<form name="Bright" id="Bright" action="">
+		    <span id="bright_value" style="color:red;"></span>  
+			25<input type="range" id="brightrange" min="25" max="100" step="25" value="100" onchange="show_value(this.value);">100
+			<br><br>
+			<input type="submit" name="submit" value="Submit"/>
+		</form>
+	<div/>	
+</fieldset>
+<br><br>
+<fieldset>
+	<legend><h4 align="left">Adjust Speed (10 To 1000 mS)</h4></legend>
+	<div>
+		<form name="Speed" id="Speed" action="">
+		    <span id="slider_value" style="color:red;"></span>  
+			10<input type="range" id="range" min="20" max="1000" step="20" value="40" onchange="show_value(this.value);">1000
+			<br><br>
+			<input type="submit" name="submit" value="Submit"/>
+		</form>
+	<div/>	
+</fieldset>
+<br><br>
+<fieldset>
+	<legend><h4 align="left">Sound To Light</h4></legend>
+	<div>
+		<form name="sound2light" id="sound2light" action="">
+		    <input type="radio" name="s2lrad" value="99" id="s2lon"> On<br>
+			<input type="radio" name="s2lrad" value="98" id="s2loff" checked> Off<br>
+			<br><br>
+			<input type="submit" name="submit" value="Submit"/>			
+		</form>
+	<div/>	
+</fieldset>
+<fieldset>
+	<legend><h4 align="left">Audio Sensitivity</h4></legend>
+	<div>
+		<form name="Sensitivity" id="Sensitivity" action="">
+		    <span id="slider_value" style="color:red;"></span>  
+			10<input type="range" id="range" min="10" max="100" step="10" value="20" onchange="show_value(this.value);">100
+			<br><br>
+			<input type="submit" name="submit" value="Submit"/>
+		</form>
+	<div/>	
+</fieldset>
+<br><br>
+<fieldset>
+	<legend><h4 align="left">Portable Floormaker</h4></legend>
+		<a href="ledhelp.html" target="_blank"><input type="Submit" value="Help" /></a> 
+		<p>Tel: 01332 814080</p>
+		<p>enquiries@portablefloormaker.co.uk</p>
+<fieldset/>
+</body>
+</html>
+
+

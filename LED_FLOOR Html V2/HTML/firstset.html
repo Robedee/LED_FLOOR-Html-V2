@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>PFM Controller Login</title>
+	<script type="text/javascript">
+	// PASSWORD PROTECTION SCRIPT
+
+	function TheLogin() {
+
+	var password = 'ws2812';
+
+	if (this.document.login.pass.value == password) {
+		top.location.href="ledfloor.html";
+	}
+	else {
+		window.alert("Incorrect password, please try again.");
+		}
+	}
+
+	</script>
+
+</head>
+
+<body>
+<header>
+			
+			<h1 align="left"> <img src="pfm.png" width="75" height="40" style=="vertical-align:middle" /> WiFi Dance Floor Login</h1>
+			
+</header>
+<body />
+
+<fieldset>
+	<legend><h4 align="left">Enter your password</h4></legend>
+	<div>
+		<form name="login"/>
+		<input type="password" name="pass" size="17" onkeydown="if(event.keyCode==13) return false;"/><br />
+		<br><br>
+		<input type="button" value="Submit" onclick="javascript:TheLogin(this.form)"/>
+		</form>
+	<div/>
+</fieldset>
+
